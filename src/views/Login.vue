@@ -1,44 +1,52 @@
 <template>
-  <div class="container">
-    <h1>Vue Admin<br /><span> 后台登录界面</span></h1>
-    <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
-      <!-- <el-tab-pane label="用户登陆" name="first">空</el-tab-pane> -->
-      <el-tab-pane label="手机登陆" name="second">
-        <el-form :model="phoneForm" :rules="rules">
-          <el-form-item prop="phone">
-            <el-input
-              v-model="phoneForm.phoneNumber"
-              placeholder="请输入手机号"
-              type="number"
-              prefix-icon="el-icon-mobile-phone"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="code">
-            <div class="auth-item">
+  <div class="Login-main">
+    <div class="Login-main-container">
+      <h1>Vue Admin<br /><span> 后台登录界面</span></h1>
+      <el-tabs v-model="activeName" stretch>
+        <!-- <el-tab-pane label="用户登陆" name="first">空</el-tab-pane> -->
+        <el-tab-pane label="手机登陆" name="second">
+          <el-form :model="phoneForm" :rules="smsRules" ref="phoneForm">
+            <el-form-item prop="phone">
               <el-input
-                class="auth"
-                v-model="phoneForm.auth"
-                placeholder="请输入验证码"
+                type="number"
+                prefix-icon="el-icon-mobile-phone"
+                placeholder="请输手机号"
+                v-model="phoneForm.phone"
+                autocomplete="off"
               ></el-input>
-              <el-button
-                class="auth-btn"
-                :disabled="disabled"
-                @click="handleSendCode"
-                >{{ buttonName }}</el-button
-              >
-            </div>
-          </el-form-item>
-          <el-form-item>
-            <el-checkbox v-model="phoneForm.checked"
-              >自动登录</el-checkbox
-            ></el-form-item
-          >
-          <el-form-item
-            ><el-button type="primary">登陆</el-button></el-form-item
-          >
-        </el-form>
-      </el-tab-pane>
-    </el-tabs>
+            </el-form-item>
+            <el-form-item prop="code">
+              <div class="auth-item">
+                <el-input
+                  class="auth"
+                  type="number"
+                  placeholder="请输入验证码"
+                  v-model="phoneForm.code"
+                  prefix-icon="el-icon-mobile"
+                  autocomplete="off"
+                ></el-input>
+                <el-button
+                  class="auth-btn"
+                  :disabled="disabled"
+                  @click="handleSendCode"
+                  >{{ buttonName }}</el-button
+                >
+              </div>
+            </el-form-item>
+            <el-form-item>
+              <el-checkbox v-model="phoneForm.checked"
+                >自动登录</el-checkbox
+              ></el-form-item
+            >
+            <el-form-item
+              ><el-button type="primary" @click="submitForm('phoneForm')"
+                >登陆</el-button
+              ></el-form-item
+            >
+          </el-form>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -51,10 +59,10 @@ export default {
       activeName: "second",
       phoneForm: {
         phoneNumber: "",
-        auth: "",
+        code: "",
         checked: true
       },
-      rules: {
+      smsRules: {
         phone: [
           { required: true, message: "请输入手机号", trigger: "blur" },
           {
@@ -72,41 +80,51 @@ export default {
       if (this.disabled) {
         return;
       }
-      this.disabled = true;
-      let time = 60;
-      this.buttonName = `(${time})秒重新发送`;
-      const interval = window.setInterval(() => {
-        time -= 1;
+
+      this.$refs.phoneForm.validateField("phone", errMsg => {
+        if (errMsg) return;
+        this.disabled = true;
+
+        let time = 60;
         this.buttonName = `(${time})秒重新发送`;
-        if (time <= 0) {
-          this.buttonName = "重新发送";
-          window.clearInterval(interval);
-          this.disabled = false;
-        }
-      }, 1000);
-      // console.log(this.phoneForm.auth)
-      // console.log(this.$refs.phoneForm)
+        const interval = window.setInterval(() => {
+          time -= 1;
+          this.buttonName = `(${time})秒重新发送`;
+          if (time <= 0) {
+            this.buttonName = "重新发送";
+            this.disabled = false;
+            window.clearInterval(interval);
+          }
+        }, 1000);
+      });
     },
-    handleClick(tab, event) {
-      console.log(tab, event);
+    submitForm(phoneForm) {
+      this.$refs[phoneForm].validate(() => {
+        this.$router.replace({ name: "Home" });
+      });
     }
+    // handleClick(tab, event) {
+    //   // console.log(tab, event);
+    // }
   },
   components: {}
 };
 </script>
 
 <style scope>
-body,
-html {
+html,
+body {
   height: 100%;
 }
 
-body {
+.Login-main {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  width: 100%;
 }
-.container {
+.Login-main-container {
   height: 400px;
   width: 300px;
   padding: 20px;

@@ -3,18 +3,17 @@
     <div class="page-mainer">
       <div class="banner-section">
         <div class="container">
-          <ul class="swiper-list">
-            <li class="swiper-item"></li>
-            <li class="swiper-item"></li>
-            <li class="swiper-item"></li>
-            <li class="swiper-item"></li>
-          </ul>
-          <div class="swiper-pagination-list">
-            <span class="swiper-pagination-item active"></span>
-            <span class="swiper-pagination-item"></span>
-            <span class="swiper-pagination-item"></span>
-            <span class="swiper-pagination-item"></span>
-          </div>
+          <el-carousel :interval="5000" arrow="always">
+            <el-carousel-item v-for="item in bannerImg" :key="item.id">
+              <div
+                :style="{
+                  background: 'url(' + item.image + ')',
+                  height: '100%',
+                  'background-position': 'center'
+                }"
+              ></div>
+            </el-carousel-item>
+          </el-carousel>
         </div>
       </div>
       <div class="shizhan-section">
@@ -56,6 +55,18 @@ export default {
       //  Classes:[],
       //  Projects:[],
       //  Lab:[]
+      bannerImg: [
+        {
+          id: 1,
+          image:
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563363704153&di=48df2a33be9955b25021d16b7d515739&imgtype=0&src=http%3A%2F%2Fpic.97ui.com%2Fyc_pic%2F00%2F00%2F08%2F79%2F53e3829fe1012cf8b092a602b7ba0e16.jpg%2521w1200"
+        },
+        {
+          id: 2,
+          image:
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563363784183&di=0330ad143047f15264145e5a470dcb7c&imgtype=0&src=http%3A%2F%2Fwww.czt.cn%2FUpImage%2FRelate%2F20170623115550.jpg"
+        }
+      ]
     };
   },
   computed: {
@@ -134,7 +145,6 @@ export default {
       width: 1080px;
       margin: 0 auto;
       height: 320px;
-      background: url("~@/assets/images/banner.jpg");
       position: relative;
       .swiper-pagination-list {
         position: absolute;
