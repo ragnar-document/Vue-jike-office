@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>Fill 1</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="258" height="240" rx="5"></rect>
+        <filter x="-2.9%" y="-3.1%" width="105.8%" height="106.2%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.04 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="jiker-clould" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="index" transform="translate(-1204.000000, -1134.000000)">
+            <rect fill="#F8FAFC" x="0" y="0" width="1440" height="2403"></rect>
+            <g id="1-copy-8备份-5" transform="translate(1004.000000, 924.000000)">
+                <g id="Bitmap">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Mask" fill-rule="nonzero">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-1"></use>
+                        <use fill="#FFFFFF" xlink:href="#path-1"></use>
+                    </g>
+                </g>
+                <text id="中级-30min-1103" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="12" fill="#666666">
+                    <tspan x="33" y="224">中级        30min                       1103</tspan>
+                </text>
+                <path d="M206,211.6 C207.12,211.6 208,212.48 208,213.6 C208,214.72 207.12,215.6 206,215.6 C204.88,215.6 204,214.72 204,213.6 C204,212.48 204.88,211.6 206,211.6 L206,211.6 Z M206,217.2 C208,217.2 209.6,215.6 209.6,213.6 C209.6,211.6 208,210 206,210 C204,210 202.4,211.6 202.4,213.6 C202.4,215.6 204,217.2 206,217.2 L206,217.2 Z M210.4,221.2 L201.6,221.2 L201.6,220.56 C202,220.24 203.6,219.6 206,219.6 C208.4,219.6 210,220.24 210.4,220.56 L210.4,221.2 Z M206,218 C202.72,218 200,219.04 200,220.4 L200,222.8 L212,222.8 L212,220.4 C212,219.04 209.28,218 206,218 L206,218 Z" id="Fill-1" fill="#999999"></path>
+            </g>
+        </g>
+    </g>
+</svg>
