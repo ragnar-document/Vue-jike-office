@@ -1,66 +1,81 @@
 <template>
-  <div class="Login-main">
-    <div class="Login-main-container">
-      <h1>Vue Admin<br /><span> 后台登录界面</span></h1>
-      <el-tabs v-model="activeName" stretch>
-        <!-- <el-tab-pane label="用户登陆" name="first">空</el-tab-pane> -->
-        <el-tab-pane label="手机登陆" name="second">
-          <el-form :model="phoneForm" :rules="smsRules" ref="phoneForm">
-            <el-form-item prop="phone">
-              <el-input
-                type="number"
-                prefix-icon="el-icon-mobile-phone"
-                placeholder="请输手机号"
-                v-model="phoneForm.phone"
-                autocomplete="off"
-              ></el-input>
-            </el-form-item>
-            <el-form-item prop="code">
-              <div class="auth-item">
+  <div class="account-login-contaienr">
+    <div class="account-login-bd">
+      <div class="company-info-container">
+        <img
+          class="company-info-logo"
+          src="http://e.jikexueyuan.com/headerandfooter/images/logo.png?t=1513326254000"
+        />
+      </div>
+      <div class="account-login-mainer">
+        <div class="login-form-container">
+          <div class="login-form-phone">
+            <el-form
+              :model="smsFrom"
+              status-icon
+              :rules="smsRules"
+              ref="smsFrom"
+            >
+              <el-form-item prop="phone">
                 <el-input
-                  class="auth"
                   type="number"
-                  placeholder="请输入验证码"
-                  v-model="phoneForm.code"
-                  prefix-icon="el-icon-mobile"
+                  prefix-icon="el-icon-mobile-phone"
+                  placeholder="请输手机号"
+                  v-model="smsFrom.phone"
                   autocomplete="off"
                 ></el-input>
+              </el-form-item>
+              <el-form-item prop="code">
+                <div class="flex-cell">
+                  <el-input
+                    class="flex-cell-bd"
+                    type="number"
+                    placeholder="请输入验证码"
+                    v-model="smsFrom.code"
+                    autocomplete="off"
+                    prefix-icon="el-icon-mobile"
+                  ></el-input>
+                  <el-button
+                    :disabled="disabled"
+                    class="flex-cell-ft"
+                    @click="handleSendCode"
+                    >{{ buttonName }}</el-button
+                  >
+                </div>
+              </el-form-item>
+              <el-form-item prop="checked">
+                <div class="flex-cell">
+                  <el-checkbox class="flex-cell-bd" v-model="smsFrom.checked"
+                    >自动登录</el-checkbox
+                  >
+                </div>
+              </el-form-item>
+              <el-form-item>
                 <el-button
-                  class="auth-btn"
-                  :disabled="disabled"
-                  @click="handleSendCode"
-                  >{{ buttonName }}</el-button
+                  type="primary"
+                  style="width: 100%"
+                  @click="submitForm('smsFrom')"
+                  >登录</el-button
                 >
-              </div>
-            </el-form-item>
-            <el-form-item>
-              <el-checkbox v-model="phoneForm.checked"
-                >自动登录</el-checkbox
-              ></el-form-item
-            >
-            <el-form-item
-              ><el-button type="primary" @click="submitForm('phoneForm')"
-                >登陆</el-button
-              ></el-form-item
-            >
-          </el-form>
-        </el-tab-pane>
-      </el-tabs>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import authService from "./../global/service/authService.js";
 export default {
   data() {
     return {
-      buttonName: "获取验证码",
-      disabled: false,
-      activeName: "second",
-      phoneForm: {
-        phoneNumber: "",
-        code: "",
-        checked: true
+      passwordMode: true,
+      smsFrom: {
+        phone: "",
+        checked: true,
+        code: ""
       },
       smsRules: {
         phone: [
@@ -72,82 +87,146 @@ export default {
           }
         ],
         code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
-      }
+      },
+      buttonName: "获取验证码",
+      disabled: false
     };
   },
   methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          // if (formName === "passwordFrom") {
+          //   this.$router.replace({ name: "Home" });
+          // } else {
+          //   this.$router.replace({ name: "Home" });
+          // }
+          authService
+            .loginByPhoneCode({
+              phone_number: this.smsFrom.phone,
+              code: this.smsFrom.code
+            })
+            .then(res => {
+              console.log(res);
+              this.$router.replace({ name: "Home" });
+            });
+        }
+      });
+    },
     handleSendCode() {
       if (this.disabled) {
         return;
       }
-
-      this.$refs.phoneForm.validateField("phone", errMsg => {
+      this.$refs.smsFrom.validateField("phone", errMsg => {
         if (errMsg) return;
         this.disabled = true;
 
-        let time = 60;
-        this.buttonName = `(${time})秒重新发送`;
-        const interval = window.setInterval(() => {
-          time -= 1;
-          this.buttonName = `(${time})秒重新发送`;
-          if (time <= 0) {
-            this.buttonName = "重新发送";
-            this.disabled = false;
-            window.clearInterval(interval);
-          }
-        }, 1000);
-      });
-    },
-    submitForm(phoneForm) {
-      this.$refs[phoneForm].validate(() => {
-        this.$router.replace({ name: "Home" });
+        authService
+          .phoneSmsVerifyCode({
+            phone_number: this.smsFrom.phone
+          })
+          .then(() => {
+            let time = 60;
+            this.buttonName = `(${time})秒重新发送`;
+            const interval = window.setInterval(() => {
+              time -= 1;
+              this.buttonName = `(${time})秒重新发送`;
+              if (time <= 0) {
+                this.buttonName = "重新发送";
+                this.disabled = false;
+                window.clearInterval(interval);
+              }
+            }, 1000);
+          });
       });
     }
-    // handleClick(tab, event) {
-    //   // console.log(tab, event);
-    // }
-  },
-  components: {}
+  }
 };
 </script>
 
-<style scope>
-html,
-body {
-  height: 100%;
+<style lang="less" scoped>
+.flex-cell {
+  display: flex;
+  .flex-cell-bd {
+    flex: 1;
+  }
+  .flex-cell-ft {
+    width: 130px;
+    margin-left: 8px;
+    &:after {
+      display: none;
+    }
+    &.link {
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      color: #409eff;
+      text-decoration: none;
+    }
+  }
 }
-
-.Login-main {
+.account-login-contaienr {
+  display: flex;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f0f2f5;
+  background-position: center;
+  padding-top: 40px;
+  box-sizing: border-box;
+}
+.account-login-bd {
+  flex: 1;
+  padding: 32px 0;
+}
+.company-info-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100%;
+  .company-info-logo {
+    height: 44px;
+    margin-right: 20px;
+  }
+  .company-info-name {
+    line-height: 44px;
+    font-size: 33px;
+    font-weight: 600;
+    font-family: Avenir;
+  }
 }
-.Login-main-container {
-  height: 400px;
-  width: 300px;
-  padding: 20px;
+.company-info-desc {
+  margin: 12px 0 40px;
+  font-size: 14px;
+  opacity: 0.5;
   text-align: center;
-  border-radius: 10px;
-  -webkit-box-shadow: 2px 14px 32px 6px rgba(0, 0, 0, 0.3);
-  box-shadow: 2px 14px 32px 6px rgba(0, 0, 0, 0.3);
 }
-
-h1 > span {
-  font-size: 20px;
-  font-weight: 200;
-  color: #999;
+.account-login-mainer {
+  max-width: 388px;
+  margin: 40px auto;
 }
-
-.auth-item {
-  display: flex;
-  justify-content: space-between;
-}
-.auth {
-  width: 140px !important;
-}
-.auth-btn {
-  width: 150px !important;
+.login-tab-container {
+  text-align: center;
+  margin-bottom: 24px;
+  .login-tab-item {
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    margin-right: 32px;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 20px;
+    color: #666;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    &:last-child {
+      margin-right: 0;
+    }
+    &.active {
+      color: #1890ff;
+      font-weight: 500;
+      border-color: #1890ff;
+    }
+  }
 }
 </style>
