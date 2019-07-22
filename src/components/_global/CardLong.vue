@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  name: "v-card-long",
   props: {
     datas: {
       type: Array,

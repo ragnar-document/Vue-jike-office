@@ -21,6 +21,7 @@
 
 <script>
 export default {
+  name: "v-card-class",
   props: {
     datas: {
       type: Array,

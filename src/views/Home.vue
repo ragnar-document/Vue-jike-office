@@ -120,16 +120,9 @@ export default {
           deed: "《人间天堂》作者"
         };
       });
-      console.log(res);
       return res;
     }
   }
-  // components: {
-  //   "v-card-long": CardLong,
-  //   "v-card-class": CardClass,
-  //   "v-card-project": CardProject,
-  //   "v-card-sm": CardSm
-  // }
 };
 </script>
 

@@ -10,6 +10,7 @@
 
 <script>
 export default {
+  name: "v-card-project",
   props: {
     datas: {
       type: Array,

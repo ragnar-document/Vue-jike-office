@@ -8,6 +8,7 @@
     </div>
   </footer>
 </template>
+
 <style type="text/css" lang="less">
 .page-footer {
   min-width: 1080px;

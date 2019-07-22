@@ -27,16 +27,44 @@
       </div>
       <div class="head-userINFO">
         <div class="icon">
-          <span class="online-icon"></span>
-          <span class="touxiang-icon"></span>
+          <!-- <span class="online-icon"></span>
+          <span class="touxiang-icon"></span> -->
+          <img
+            :src="userInfo.avatar"
+            class="touxiang-icon"
+            v-if="userInfo.id"
+          />
         </div>
         <div class="head-login">
-          <router-link :to="{ name: 'Login' }" class="login">登陆</router-link>
+          <router-link :to="{ name: 'Login' }" class="login" v-if="!userInfo.id"
+            >登陆</router-link
+          >
         </div>
       </div>
     </div>
   </header>
 </template>
+
+<script>
+import jklogo from "@/assets/images/jklogo.png";
+
+export default {
+  data() {
+    return {
+      userInfo: []
+    };
+  },
+  created() {
+    let a = localStorage.userInfo;
+    this.userInfo = JSON.parse(a);
+    if (this.userInfo.avatar == null) {
+      this.userInfo.avatar = jklogo;
+    }
+  },
+
+  methods: {}
+};
+</script>
 
 <style type="text/css" lang="less">
 .page-header {
@@ -136,12 +164,21 @@
           height: 34px;
           display: inline-block;
           cursor: pointer;
-          background: url("~@/assets/images/touxiang.svg");
           margin-left: 30px;
+          border-radius: 50%;
         }
       }
       .head-login {
-        display: none;
+        .login {
+          display: inline-block;
+          text-align: center;
+          text-decoration: none;
+          color: #5db855;
+          border: 2px solid #5db855;
+          padding: 5px 0;
+          width: 80px;
+          border-radius: 999px;
+        }
       }
     }
   }
