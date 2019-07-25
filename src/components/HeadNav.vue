@@ -27,13 +27,14 @@
       </div>
       <div class="head-userINFO">
         <div class="icon">
-          <!-- <span class="online-icon"></span>
-          <span class="touxiang-icon"></span> -->
-          <img
-            :src="userInfo.avatar"
-            class="touxiang-icon"
-            v-if="userInfo.id"
-          />
+          <el-dropdown @command="handleCommand">
+            <span class="el-dropdown-link">
+              <img :src="userAvatar" class="touxiang-icon" v-if="userInfo.id" />
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="logout">注销</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
         <div class="head-login">
           <router-link :to="{ name: 'Login' }" class="login" v-if="!userInfo.id"
@@ -47,6 +48,7 @@
 
 <script>
 import jklogo from "@/assets/images/jklogo.png";
+import authService from "@/global/service/authService.js";
 
 export default {
   data() {
@@ -55,14 +57,22 @@ export default {
     };
   },
   created() {
-    let a = localStorage.userInfo;
-    this.userInfo = JSON.parse(a);
-    if (this.userInfo.avatar == null) {
-      this.userInfo.avatar = jklogo;
+    this.userInfo = authService.userInfo();
+    console.log(authService.userInfo());
+  },
+  computed: {
+    userAvatar() {
+      return this.userInfo.avatar ? this.userInfo.avatar.path : jklogo;
     }
   },
-
-  methods: {}
+  methods: {
+    handleCommand(command) {
+      this[command]();
+    },
+    logout() {
+      authService.logout();
+    }
+  }
 };
 </script>
 

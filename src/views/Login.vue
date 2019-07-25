@@ -96,11 +96,6 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // if (formName === "passwordFrom") {
-          //   this.$router.replace({ name: "Home" });
-          // } else {
-          //   this.$router.replace({ name: "Home" });
-          // }
           authService
             .loginByPhoneCode({
               phone_number: this.smsFrom.phone,
@@ -125,7 +120,10 @@ export default {
           .phoneSmsVerifyCode({
             phone_number: this.smsFrom.phone
           })
-          .then(() => {
+          .then(res => {
+            if (res.data.code) {
+              this.smsFrom.code = res.data.code;
+            }
             let time = 60;
             this.buttonName = `(${time})秒重新发送`;
             const interval = window.setInterval(() => {

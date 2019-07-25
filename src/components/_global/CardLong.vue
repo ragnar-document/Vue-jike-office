@@ -2,14 +2,14 @@
   <ul class="shizhan-list">
     <li class="shizhan-item" v-for="item in datas" :key="item.id">
       <div class="shizhan-item-text">
-        <h3 class="shizhan-item-title">{{ item.title }}</h3>
-        <p class="shizhan-item-desc">{{ item.desc }}</p>
+        <h3 class="shizhan-item-title">{{ item.name }}</h3>
+        <p class="shizhan-item-desc">{{ item.description }}</p>
         <p class="shizhan-item-info">
-          <span class="name">{{ item.name }} </span> /&nbsp;{{ item.deed }}
+          <span class="name">{{ item.coach_name }} </span>
         </p>
       </div>
       <div class="shizhan-item-photo">
-        <img :src="item.imegas" class="shizhan-item-img" />
+        <img :src="item.coach_avatar" class="shizhan-item-img" />
       </div>
     </li>
   </ul>

@@ -1,7 +1,7 @@
 <template>
   <ul class="project-list">
     <li class="project-item" v-for="item in datas" :key="item.id">
-      <p class="project-item-desc">{{ item.desc }}</p>
+      <p class="project-item-desc">{{ item.name }}</p>
       <p class="project-item-description">{{ item.description }}</p>
       <a href="" class="project-item-challenge">立即挑战</a>
     </li>

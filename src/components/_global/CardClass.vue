@@ -2,19 +2,19 @@
   <ul class="lesson-list">
     <li class="lesson-item" v-for="val in datas" :key="val.id">
       <div class="lesson-item-photo">
-        <img :src="val.imegas" class="lesson-item-img" />
+        <img :src="val.cover_url" class="lesson-item-img" />
       </div>
       <div class="lesson-item-text">
         <p class="lesson-item-desc">
-          {{ val.title }}
+          {{ val.name }}
         </p>
         <p class="lesson-item-info">
-          <span class="level">{{ val.level }}</span>
-          <span class="time">{{ val.duration }}min</span>
-          <span class="person-number">{{ val.number }}</span>
+          <span class="level">{{ val.difficulty_level }}</span>
+          <span class="time">{{ val.total_duration }}</span>
+          <span class="person-number">{{ val.study_count }}</span>
         </p>
       </div>
-      <span class="new-tag">{{ val.tag }}</span>
+      <span class="new-tag">{{ val.difficulty_level_label }}</span>
     </li>
   </ul>
 </template>

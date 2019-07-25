@@ -12,16 +12,20 @@ const authService = {
       .post(API.loginByPhoneCode, { phone_number, code })
       .then(res => {
         DataStore.setToken(res.data.token);
-        let userinfo = res.data.userinfo;
-        localStorage.setItem("userInfo", JSON.stringify(userinfo));
+        DataStore.storage.set("userInfo", res.data.userinfo);
+
+        // let userinfo = res.data.userinfo;
+        // localStorage.setItem("userInfo", JSON.stringify(userinfo));
         return res;
       });
   },
   userInfo() {
-    const mapData = DataStore.map.get("userInfo");
-    let useinfo = mapData.data.userInfo;
-    localStorage.setItem("userInfo", useinfo);
-    return;
+    const mapData = DataStore.storage.get("userInfo");
+    return mapData;
+  },
+
+  logout() {
+    DataStore.clear();
   }
 };
 
