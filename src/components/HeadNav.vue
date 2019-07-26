@@ -158,7 +158,7 @@ export default {
     .head-userINFO {
       vertical-align: top;
       float: right;
-      margin-top: 13px;
+      margin-top: -10px;
       .icon {
         .online-icon {
           vertical-align: top;
