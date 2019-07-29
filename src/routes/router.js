@@ -1,6 +1,7 @@
 import Home from "@/views/Home.vue";
 import Plus from "@/views/Plus.vue";
 import Course from "@/views/Course.vue";
+import CourseItem from "@/views/CourseItem.vue";
 import Project from "@/views/Project.vue";
 import Lab from "@/views/Lab.vue";
 import Login from "@/views/Login.vue";
@@ -34,7 +35,11 @@ export default [
         name: "Course",
         component: Course
       },
-
+      {
+        path: "/course/:id",
+        name: "CourseItem",
+        component: CourseItem
+      },
       {
         path: "/project",
         name: "Project",

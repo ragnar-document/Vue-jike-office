@@ -1,20 +1,22 @@
 <template>
   <ul class="lesson-list">
     <li class="lesson-item" v-for="val in datas" :key="val.id">
-      <div class="lesson-item-photo">
-        <img :src="val.cover_url" class="lesson-item-img" />
-      </div>
-      <div class="lesson-item-text">
-        <p class="lesson-item-desc">
-          {{ val.name }}
-        </p>
-        <p class="lesson-item-info">
-          <span class="level">{{ val.difficulty_level }}</span>
-          <span class="time">{{ val.total_duration }}</span>
-          <span class="person-number">{{ val.study_count }}</span>
-        </p>
-      </div>
-      <span class="new-tag">{{ val.difficulty_level_label }}</span>
+      <router-link :to="{ path: `/course/${val.id}` }">
+        <div class="lesson-item-photo">
+          <img :src="val.cover_url" class="lesson-item-img" />
+        </div>
+        <div class="lesson-item-text">
+          <p class="lesson-item-desc">
+            {{ val.name }}
+          </p>
+          <p class="lesson-item-info">
+            <span class="level">{{ val.difficulty_level }}</span>
+            <span class="time">{{ val.total_duration }}</span>
+            <span class="person-number">{{ val.study_count }}</span>
+          </p>
+        </div>
+        <span class="new-tag">{{ val.difficulty_level_label }}</span>
+      </router-link>
     </li>
   </ul>
 </template>
@@ -28,7 +30,14 @@ export default {
       // 对象或数组默认值必须从一个工厂函数获取
       default: () => []
     }
-  }
+  },
+  data() {
+    return {
+      courseId: ""
+    };
+  },
+
+  created() {}
 };
 </script>
 
@@ -41,7 +50,7 @@ export default {
     cursor: pointer;
     border-radius: 5px;
     width: 258px;
-    height: 240px;
+    height: 100%;
     margin-bottom: 40px;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.04);
     position: relative;

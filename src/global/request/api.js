@@ -7,5 +7,8 @@ export default {
   switchImages: `${PREFIX}/api/common/switch_image`,
   index: `${PREFIX}/api/index`,
   category: `${PREFIX}/api/course/category`,
-  course: `${PREFIX}/api/course`
+  course: `${PREFIX}/api/course`,
+  courseItem: id => {
+    return `${PREFIX}/api/course/` + id;
+  }
 };

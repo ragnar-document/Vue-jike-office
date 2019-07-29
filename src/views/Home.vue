@@ -64,11 +64,11 @@ export default {
   created() {
     Promise.all([commdService.indexData(), commdService.switchImages()])
       .then(res => {
+        console.log(res);
         this.projects = res[0].data.projects;
         this.video_courses = res[0].data.video_courses;
         this.ying_goods = res[0].data.ying_goods;
         this.bannerImg = res[1].data;
-        console.log(res[1].data);
       })
       .catch(e => {
         console.log(e);

@@ -10,9 +10,6 @@ const commdService = {
   },
   category() {
     return request.get(API.category);
-  },
-  course() {
-    return request.get(API.course);
   }
 };
 

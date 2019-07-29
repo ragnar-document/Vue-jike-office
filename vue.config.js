@@ -2,7 +2,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "https://edu.jiker.vip",
+        target: "https://bitc.jiker.vip",
         ws: true,
         changeOrigin: true
       }

@@ -5,14 +5,17 @@
         <div class="catalog-section">
           <div class="container">
             <dl class="catalog-list" v-for="item in category" :key="item.id">
-              <dt class="catalog-list-title">{{ item.name }}</dt>
+              <dt class="catalog-list-title" :style="{ color: item.color }">
+                {{ item.name }}
+              </dt>
               <dd
                 class="catalog-list-item"
                 v-for="index in item.contents"
                 :key="index.id"
-                :style="{ color: index.color }"
               >
-                {{ index.name }}
+                <router-link :to="{ path: `/course/${index.id}` }">{{
+                  index.name
+                }}</router-link>
               </dd>
             </dl>
           </div>
@@ -85,7 +88,7 @@
 </template>
 
 <script>
-import commdService from "@/global/service/commdService.js";
+import courseService from "@/global/service/courseService.js";
 export default {
   data() {
     return {
@@ -95,7 +98,7 @@ export default {
     };
   },
   created() {
-    Promise.all([commdService.category(), commdService.course()])
+    Promise.all([courseService.category(), courseService.course()])
       .then(res => {
         let couresNum = res[1].data.list.length;
         this.couresNum = couresNum;
@@ -106,13 +109,12 @@ export default {
         for (let i = 0; i < categoryNum; i++) {
           this.category.push(res[0].data.categories[i]);
         }
-        console.log(this.category);
       })
       .catch(e => {
         console.log(e);
       });
-    console.log(this.courses);
-  }
+  },
+  methods: {}
 };
 </script>
 
@@ -121,6 +123,11 @@ export default {
   padding-top: 20px;
   background: #f8fafc;
   padding-bottom: 60px;
+  .page-container {
+    display: flex;
+    width: 1080px;
+    margin: 0 auto;
+  }
   .catalog-section {
     width: 250px;
     padding-top: 24px;
@@ -142,7 +149,9 @@ export default {
           font-weight: 500;
           font-family: PingFangSC-Medium;
         }
-        .catalog-list-item {
+        .catalog-list-item,
+        a {
+          text-decoration: none;
           font-size: 14px;
           line-height: 14px;
           color: #666;
@@ -162,6 +171,9 @@ export default {
     .container {
       width: 806px;
       .course-information {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         width: 806px;
         height: 46px;
         border-radius: 3px;
@@ -169,9 +181,7 @@ export default {
         background: #fff;
         margin-bottom: 16px;
         .information-left {
-          float: left;
           margin-left: 20px;
-          margin-top: 16px;
           .course-name {
             display: inline-block;
             font-size: 14px;
@@ -199,9 +209,7 @@ export default {
           }
         }
         .information-right {
-          float: right;
           margin-right: 43px;
-          margin-top: 16px;
           .information-level {
             display: inline-block;
             position: relative;
@@ -243,7 +251,6 @@ export default {
             color: #666;
             line-height: 12px;
             margin-left: 43px;
-            vertical-align: top;
             display: inline-block;
           }
         }

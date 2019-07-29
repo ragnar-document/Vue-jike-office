@@ -58,7 +58,6 @@ export default {
   },
   created() {
     this.userInfo = authService.userInfo();
-    console.log(authService.userInfo());
   },
   computed: {
     userAvatar() {
